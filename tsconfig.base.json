@@ -1,0 +1,39 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"rootDir": ".",
+		"sourceMap": true,
+		"declaration": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"target": "es2022",
+		"module": "es2022",
+		"lib": ["es2022", "dom"],
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/features": ["libs/features/src/index.ts"],
+			"@/features/auth": ["libs/features/auth/src/index.ts"],
+			"@/utils": ["libs/utils/src/index.ts"],
+			"@agora/script-loader": ["libs/script-loader/src/index.ts"],
+			"@agora/spar-tan-toe-db": ["libs/spar-tan-toe-db/src/index.ts"],
+			"@agora/supabase/auth": ["libs/supabase/auth/src/index.ts"],
+			"@agora/supabase/core": ["libs/supabase/core/src/index.ts"],
+			"@spartan-ng/ui-alert-helm": ["libs/ui/ui-alert-helm/src/index.ts"],
+			"@spartan-ng/ui-alertdialog-helm": ["libs/ui/ui-alertdialog-helm/src/index.ts"],
+			"@spartan-ng/ui-avatar-helm": ["libs/ui/ui-avatar-helm/src/index.ts"],
+			"@spartan-ng/ui-button-helm": ["libs/ui/ui-button-helm/src/index.ts"],
+			"@spartan-ng/ui-card-helm": ["libs/ui/ui-card-helm/src/index.ts"],
+			"@spartan-ng/ui-dialog-helm": ["libs/ui/ui-dialog-helm/src/index.ts"],
+			"@spartan-ng/ui-icon-helm": ["libs/ui/ui-icon-helm/src/index.ts"],
+			"@spartan-ng/ui-select-helm": ["libs/ui/ui-select-helm/src/index.ts"],
+			"@spartan-ng/ui-skeleton-helm": ["libs/ui/ui-skeleton-helm/src/index.ts"],
+			"@spartan-ng/ui-sonner-helm": ["libs/ui/ui-sonner-helm/src/index.ts"],
+			"@spartan-ng/ui-spinner-helm": ["libs/ui/ui-spinner-helm/src/index.ts"]
+		}
+	},
+	"exclude": ["node_modules", "tmp"]
+}

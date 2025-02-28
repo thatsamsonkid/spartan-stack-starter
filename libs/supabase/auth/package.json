@@ -1,0 +1,13 @@
+{
+	"name": "@agora/supabase/auth",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"dependencies": {
+		"@supabase/supabase-js": "^2.41.1",
+		"tslib": "^2.3.0"
+	},
+	"peerDependencies": {
+		"@angular/common": "^17.2.0",
+		"@angular/core": "^17.2.0"
+	}
+}

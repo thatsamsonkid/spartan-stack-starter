@@ -1,0 +1,33 @@
+{
+	"name": "supabase-auth",
+	"$schema": "../../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "libs/supabase/auth/src",
+	"prefix": "lib",
+	"tags": [],
+	"projectType": "library",
+	"targets": {
+		"build": {
+			"executor": "@nx/angular:ng-packagr-lite",
+			"outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+			"options": {
+				"project": "libs/supabase/auth/ng-package.json"
+			},
+			"configurations": {
+				"production": {
+					"tsConfig": "libs/supabase/auth/tsconfig.lib.prod.json"
+				},
+				"development": {
+					"tsConfig": "libs/supabase/auth/tsconfig.lib.json"
+				}
+			},
+			"defaultConfiguration": "production"
+		},
+		"test": {
+			"executor": "@nx/jest:jest",
+			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+			"options": {
+				"jestConfig": "libs/supabase/auth/jest.config.ts"
+			}
+		}
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"name": "@agora/script-loader",
+	"version": "0.0.1",
+	"sideEffects": false,
+	"dependencies": {
+		"tslib": "^2.3.0"
+	},
+	"peerDependencies": {
+		"@angular/common": "^17.3.0",
+		"@angular/core": "^17.3.0"
+	}
+}

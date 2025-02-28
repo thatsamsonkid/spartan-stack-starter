@@ -1,0 +1,278 @@
+{
+	"id": "31e81ede-e55c-4ddd-9826-44b246be7b1a",
+	"prevId": "00000000-0000-0000-0000-000000000000",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"public.game": {
+			"name": "game",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"player_1": {
+					"name": "player_1",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"player_2": {
+					"name": "player_2",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"game_status": {
+					"name": "game_status",
+					"type": "game_status",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"player_1_symbol": {
+					"name": "player_1_symbol",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"default": 0
+				},
+				"player_2_symbol": {
+					"name": "player_2_symbol",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"default": 1
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"game_player_1_profile_id_fk": {
+					"name": "game_player_1_profile_id_fk",
+					"tableFrom": "game",
+					"tableTo": "profile",
+					"columnsFrom": ["player_1"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"game_player_2_profile_id_fk": {
+					"name": "game_player_2_profile_id_fk",
+					"tableFrom": "game",
+					"tableTo": "profile",
+					"columnsFrom": ["player_2"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.leaderboard": {
+			"name": "leaderboard",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "bigint",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"game_id": {
+					"name": "game_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"player_id": {
+					"name": "player_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"score": {
+					"name": "score",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"leaderboard_player_id_profile_id_fk": {
+					"name": "leaderboard_player_id_profile_id_fk",
+					"tableFrom": "leaderboard",
+					"tableTo": "profile",
+					"columnsFrom": ["player_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.moves": {
+			"name": "moves",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"game_id": {
+					"name": "game_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"player_id": {
+					"name": "player_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"symbol": {
+					"name": "symbol",
+					"type": "smallint",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"row": {
+					"name": "row",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"column": {
+					"name": "column",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"moves_player_id_profile_id_fk": {
+					"name": "moves_player_id_profile_id_fk",
+					"tableFrom": "moves",
+					"tableTo": "profile",
+					"columnsFrom": ["player_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"moves_game_id_id_pk": {
+					"name": "moves_game_id_id_pk",
+					"columns": ["id", "game_id"]
+				}
+			},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": false
+		},
+		"public.profile": {
+			"name": "profile",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"email": {
+					"name": "email",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"profile_id_users_id_fk": {
+					"name": "profile_id_users_id_fk",
+					"tableFrom": "profile",
+					"tableTo": "users",
+					"schemaTo": "auth",
+					"columnsFrom": ["id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"policies": {},
+			"checkConstraints": {},
+			"isRLSEnabled": true
+		}
+	},
+	"enums": {
+		"public.game_status": {
+			"name": "game_status",
+			"schema": "public",
+			"values": ["queued", "in-progress", "paused", "complete"]
+		}
+	},
+	"schemas": {},
+	"sequences": {},
+	"roles": {},
+	"policies": {},
+	"views": {},
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	}
+}

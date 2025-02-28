@@ -1,0 +1,312 @@
+{
+	"id": "00000000-0000-0000-0000-000000000000",
+	"prevId": "",
+	"version": "7",
+	"dialect": "postgresql",
+	"tables": {
+		"public.profile": {
+			"name": "profile",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"name": {
+					"name": "name",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"email": {
+					"name": "email",
+					"type": "varchar(256)",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"profile_id_users_id_fk": {
+					"name": "profile_id_users_id_fk",
+					"tableFrom": "profile",
+					"tableTo": "users",
+					"schemaTo": "auth",
+					"columnsFrom": ["id"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.game": {
+			"name": "game",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"player_1": {
+					"name": "player_1",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"player_2": {
+					"name": "player_2",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"public_game_player_1_fkey": {
+					"name": "public_game_player_1_fkey",
+					"tableFrom": "game",
+					"tableTo": "profile",
+					"schemaTo": "public",
+					"columnsFrom": ["player_1"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"public_game_player_2_fkey": {
+					"name": "public_game_player_2_fkey",
+					"tableFrom": "game",
+					"tableTo": "profile",
+					"schemaTo": "public",
+					"columnsFrom": ["player_2"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.leaderboard": {
+			"name": "leaderboard",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "bigint",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"game_id": {
+					"name": "game_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"player_id": {
+					"name": "player_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"score": {
+					"name": "score",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"public_leaderboard_player_id_fkey": {
+					"name": "public_leaderboard_player_id_fkey",
+					"tableFrom": "leaderboard",
+					"tableTo": "profile",
+					"schemaTo": "public",
+					"columnsFrom": ["player_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.moves": {
+			"name": "moves",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"created_at": {
+					"name": "created_at",
+					"type": "timestamp with time zone",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"game_id": {
+					"name": "game_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"player_id": {
+					"name": "player_id",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"symbol": {
+					"name": "symbol",
+					"type": "smallint",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"row": {
+					"name": "row",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"column": {
+					"name": "column",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"public_moves_player_id_fkey": {
+					"name": "public_moves_player_id_fkey",
+					"tableFrom": "moves",
+					"tableTo": "profile",
+					"schemaTo": "public",
+					"columnsFrom": ["player_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"moves_game_id_id_pk": {
+					"name": "moves_game_id_id_pk",
+					"columns": ["id", "game_id"]
+				}
+			},
+			"uniqueConstraints": {}
+		}
+	},
+	"enums": {
+		"auth.aal_level": {
+			"name": "aal_level",
+			"values": ["aal1", "aal2", "aal3"],
+			"schema": "auth"
+		},
+		"auth.code_challenge_method": {
+			"name": "code_challenge_method",
+			"values": ["s256", "plain"],
+			"schema": "auth"
+		},
+		"auth.factor_status": {
+			"name": "factor_status",
+			"values": ["unverified", "verified"],
+			"schema": "auth"
+		},
+		"auth.factor_type": {
+			"name": "factor_type",
+			"values": ["totp", "webauthn"],
+			"schema": "auth"
+		},
+		"auth.one_time_token_type": {
+			"name": "one_time_token_type",
+			"values": [
+				"confirmation_token",
+				"reauthentication_token",
+				"recovery_token",
+				"email_change_token_new",
+				"email_change_token_current",
+				"phone_change_token"
+			],
+			"schema": "auth"
+		},
+		"net.request_status": {
+			"name": "request_status",
+			"values": ["PENDING", "SUCCESS", "ERROR"],
+			"schema": "net"
+		},
+		"pgsodium.key_status": {
+			"name": "key_status",
+			"values": ["default", "valid", "invalid", "expired"],
+			"schema": "pgsodium"
+		},
+		"pgsodium.key_type": {
+			"name": "key_type",
+			"values": [
+				"aead-ietf",
+				"aead-det",
+				"hmacsha512",
+				"hmacsha256",
+				"auth",
+				"shorthash",
+				"generichash",
+				"kdf",
+				"secretbox",
+				"secretstream",
+				"stream_xchacha20"
+			],
+			"schema": "pgsodium"
+		},
+		"realtime.action": {
+			"name": "action",
+			"values": ["INSERT", "UPDATE", "DELETE", "TRUNCATE", "ERROR"],
+			"schema": "realtime"
+		},
+		"realtime.equality_op": {
+			"name": "equality_op",
+			"values": ["eq", "neq", "lt", "lte", "gt", "gte", "in"],
+			"schema": "realtime"
+		}
+	},
+	"schemas": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	},
+	"internal": {
+		"tables": {}
+	}
+}
