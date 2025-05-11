@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
 				allow: ['.', '../../libs/ui'],
 			},
 		},
-		plugins: [analog({ ssr: false }), nxViteTsPaths(), splitVendorChunkPlugin()],
+		plugins: [analog({ ssr: true }), nxViteTsPaths(), splitVendorChunkPlugin()],
 		test: {
 			globals: true,
 			environment: 'jsdom',

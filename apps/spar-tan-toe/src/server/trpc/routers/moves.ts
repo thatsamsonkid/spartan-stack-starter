@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { db } from '../../db/db';
+import { getDbConnection } from '../../db/db';
 import { game, moves } from '../../db/schema';
 import { publicProcedure, router } from '../trpc';
 
@@ -16,7 +16,7 @@ export const movesRouter = router({
 			}),
 		)
 		.mutation(async ({ input }) => {
-			return await db
+			return await getDbConnection().db
 				.insert(moves)
 				.values({
 					game_id: input.gameId,
@@ -33,5 +33,5 @@ export const movesRouter = router({
 				id: z.string(),
 			}),
 		)
-		.query(async ({ input }) => await db.select().from(moves).where(eq(moves.game_id, input.id))),
+		.query(async ({ input }) => await getDbConnection().db.select().from(moves).where(eq(moves.game_id, input.id))),
 });
