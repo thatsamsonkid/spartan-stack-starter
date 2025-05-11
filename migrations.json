@@ -1,71 +1,76 @@
 {
 	"migrations": [
 		{
-			"cli": "nx",
-			"version": "19.2.0-beta.2",
-			"description": "Updates the default workspace data directory to .nx/workspace-data",
-			"implementation": "./src/migrations/update-19-2-0/move-workspace-data-directory",
+			"version": "21.0.0-beta.8",
+			"description": "Removes the legacy cache configuration from nx.json",
+			"implementation": "./src/migrations/update-21-0-0/remove-legacy-cache",
 			"package": "nx",
-			"name": "19-2-0-move-graph-cache-directory"
+			"name": "remove-legacy-cache"
+		},
+		{
+			"version": "21.0.0-beta.8",
+			"description": "Removes the legacy cache configuration from nx.json",
+			"implementation": "./src/migrations/update-21-0-0/remove-custom-tasks-runner",
+			"package": "nx",
+			"name": "remove-custom-tasks-runner"
+		},
+		{
+			"version": "21.0.0-beta.11",
+			"description": "Updates release version config based on the breaking changes in Nx v21",
+			"implementation": "./src/migrations/update-21-0-0/release-version-config-changes",
+			"package": "nx",
+			"name": "release-version-config-changes"
+		},
+		{
+			"version": "21.0.0-beta.11",
+			"description": "Updates release changelog config based on the breaking changes in Nx v21",
+			"implementation": "./src/migrations/update-21-0-0/release-changelog-config-changes",
+			"package": "nx",
+			"name": "release-changelog-config-changes"
+		},
+		{
+			"version": "20.5.0-beta.2",
+			"description": "Install jiti as a devDependency to allow vite to parse TS postcss files.",
+			"implementation": "./src/migrations/update-20-5-0/install-jiti",
+			"package": "@nx/vite",
+			"name": "update-20-5-0-install-jiti"
+		},
+		{
+			"version": "20.5.0-beta.3",
+			"description": "Update resolve.conditions to include defaults that are no longer provided by Vite.",
+			"implementation": "./src/migrations/update-20-5-0/update-resolve-conditions",
+			"package": "@nx/vite",
+			"name": "update-20-5-0-update-resolve-conditions"
+		},
+		{
+			"version": "20.5.0-beta.3",
+			"description": "Add vite config temporary files to the ESLint configuration ignore patterns if ESLint is used.",
+			"implementation": "./src/migrations/update-20-5-0/eslint-ignore-vite-temp-files",
+			"package": "@nx/vite",
+			"name": "eslint-ignore-vite-temp-files"
 		},
 		{
 			"cli": "nx",
-			"version": "19.2.2-beta.0",
-			"description": "Updates the nx wrapper.",
-			"implementation": "./src/migrations/update-17-3-0/update-nxw",
-			"package": "nx",
-			"name": "19-2-2-update-nx-wrapper"
+			"version": "21.0.0-beta.9",
+			"description": "Replace usage of `getJestProjects` with `getJestProjectsAsync`.",
+			"implementation": "./src/migrations/update-21-0-0/replace-getJestProjects-with-getJestProjectsAsync",
+			"package": "@nx/jest",
+			"name": "replace-getJestProjects-with-getJestProjectsAsync-v21"
 		},
 		{
-			"version": "19.2.4-beta.0",
-			"description": "Set project name in nx.json explicitly",
-			"implementation": "./src/migrations/update-19-2-4/set-project-name",
-			"x-repair-skip": true,
-			"package": "nx",
-			"name": "19-2-4-set-project-name"
+			"version": "21.0.0-beta.10",
+			"description": "Remove the previously deprecated and unused `tsConfig` option from the `@nx/jest:jest` executor.",
+			"implementation": "./src/migrations/update-21-0-0/remove-tsconfig-option-from-jest-executor",
+			"package": "@nx/jest",
+			"name": "remove-tsconfig-option-from-jest-executor"
 		},
 		{
 			"cli": "nx",
-			"version": "18.2.0-beta.0",
-			"requires": {
-				"@angular/core": ">=17.3.0"
-			},
-			"description": "Update the @angular/cli package version to ~17.3.0.",
-			"factory": "./src/migrations/update-18-2-0/update-angular-cli",
+			"version": "21.0.0-beta.3",
+			"description": "Set the `continuous` option to `true` for continuous tasks.",
+			"factory": "./src/migrations/update-21-0-0/set-continuous-option",
 			"package": "@nx/angular",
-			"name": "update-angular-cli-version-17-3-0"
-		},
-		{
-			"cli": "nx",
-			"version": "19.1.0-beta.2",
-			"requires": {
-				"@angular/core": ">=18.0.0"
-			},
-			"description": "Update the @angular/cli package version to ~18.0.0.",
-			"factory": "./src/migrations/update-19-1-0/update-angular-cli",
-			"package": "@nx/angular",
-			"name": "update-angular-cli-version-18-0-0"
-		},
-		{
-			"version": "18.0.0",
-			"description": "Updates two-way bindings that have an invalid expression to use the longform expression instead.",
-			"factory": "./migrations/invalid-two-way-bindings/bundle",
-			"package": "@angular/core",
-			"name": "invalid-two-way-bindings"
-		},
-		{
-			"version": "18.0.0",
-			"description": "Replace deprecated HTTP related modules with provider functions",
-			"factory": "./migrations/http-providers/bundle",
-			"package": "@angular/core",
-			"name": "migration-http-providers"
-		},
-		{
-			"version": "18.0.0-0",
-			"description": "Updates the Angular CDK to v18",
-			"factory": "./ng-update/index#updateToV18",
-			"package": "@angular/cdk",
-			"name": "migration-v18"
+			"name": "set-continuous-option"
 		}
 	]
 }
