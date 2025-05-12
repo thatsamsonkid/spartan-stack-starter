@@ -48,11 +48,11 @@ importers:
         specifier: 19.2.9
         version: 19.2.9(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(@angular/platform-browser@19.2.9(@angular/animations@19.2.9(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0)))(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0)))(rxjs@7.8.1)
       '@ng-icons/core':
-        specifier: ^25.1.0
-        version: 25.6.1
+        specifier: ^29.10.0
+        version: 29.10.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
       '@ng-icons/lucide':
-        specifier: ^26.3.0
-        version: 26.5.0
+        specifier: 30.3.0
+        version: 30.3.0
       '@spartan-ng/brain':
         specifier: 0.0.1-alpha.457
         version: 0.0.1-alpha.457(j4d3owe3a63hw53txhsje3lme4)
@@ -83,6 +83,9 @@ importers:
       drizzle-zod:
         specifier: ^0.6.1
         version: 0.6.1(drizzle-orm@0.38.3(@libsql/client-wasm@0.14.0)(postgres@3.4.5)(react@18.3.1))(zod@3.23.8)
+      embla-carousel-angular:
+        specifier: 19.0.0
+        version: 19.0.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))
       front-matter:
         specifier: ^4.0.2
         version: 4.0.2
@@ -107,6 +110,9 @@ importers:
       mermaid:
         specifier: ^10.2.4
         version: 10.9.0
+      ngx-scrollbar:
+        specifier: '>=16.0.0'
+        version: 18.0.0(@angular/cdk@19.2.9(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
       ngx-sonner:
         specifier: ^3.1.0
         version: 3.1.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))
@@ -3450,11 +3456,15 @@ packages:
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
 
-  '@ng-icons/core@25.6.1':
-    resolution: {integrity: sha512-o6vCttlzXvDZRYiOKOULr7fsX8gY/DwwxzBSrBQzwa/at+pC0xRoe6uczJ9Ato+y1EDWP/PlrEMAQfvokBA6tQ==}
+  '@ng-icons/core@29.10.0':
+    resolution: {integrity: sha512-PR6SO00yvFhwDhh37BWhtAgRfzxuXpJQBsAQ44Pg3gjc83fOAwOtMSXizYwtN0uUFIkAYZHZCEuV7Sb8eosK+w==}
+    peerDependencies:
+      '@angular/common': '>=18.0.0'
+      '@angular/core': '>=18.0.0'
+      rxjs: ^6.5.3 || ^7.4.0
 
-  '@ng-icons/lucide@26.5.0':
-    resolution: {integrity: sha512-rW6iZo2LBlFvnpBLWs400mrKn/34PKt5R+Yfd6ZJz9lxq2TMJfNeJv/V4ylG9vYG3RkPa+KEJ+Q6/8IOceT0NA==}
+  '@ng-icons/lucide@30.3.0':
+    resolution: {integrity: sha512-Cjo9/8SNrwsca8IC/GXmxi8hNukD99JhcdTrLBrtwuRYdnUHNBky2uk6uvD4KFcdtn1GVs4f250UiDTXKhAe6A==}
 
   '@ngrx/signals@19.1.0':
     resolution: {integrity: sha512-v8sbb+Iox9kdIaKbFgt4Z1W+NxzIU4+g+6qQU6/c27UmtQXv0s1zUKKofPRK0qwkaZzNWkxNToxyoE285ukqcQ==}
@@ -6792,6 +6802,20 @@ packages:
   elkjs@0.9.2:
     resolution: {integrity: sha512-2Y/RaA1pdgSHpY0YG4TYuYCD2wh97CRvu22eLG3Kz0pgQ/6KbIFTxsTnDc4MH/6hFlg2L/9qXrDMG0nMjP63iw==}
 
+  embla-carousel-angular@19.0.0:
+    resolution: {integrity: sha512-++x4YcJMDdlOrFYmf3ZGzOIP2kMObY03fWprCyEbc3N+b2r8dRO6CSxfDg9d1oIlEj1A1ScDUJ/TWStRt6ShoQ==}
+    peerDependencies:
+      '@angular/common': '>=19.0.0'
+      '@angular/core': '>=19.0.0'
+
+  embla-carousel-reactive-utils@8.6.0:
+    resolution: {integrity: sha512-fMVUDUEx0/uIEDM0Mz3dHznDhfX+znCCDCeIophYb1QGVM7YThSWX+wz11zlYwWFOr74b4QLGg0hrGPJeG2s4A==}
+    peerDependencies:
+      embla-carousel: 8.6.0
+
+  embla-carousel@8.6.0:
+    resolution: {integrity: sha512-SjWyZBHJPbqxHOzckOfo8lHisEaJWmwd23XppYFYVh10bU66/Pn5tkVkbkCMZVdbUE5eTCI2nD8OyIP4Z+uwkA==}
+
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
     engines: {node: '>=12'}
@@ -9122,6 +9146,14 @@ packages:
     peerDependenciesMeta:
       tailwindcss:
         optional: true
+
+  ngx-scrollbar@18.0.0:
+    resolution: {integrity: sha512-+ykmY491x+nzXvnecJvZHvDz0YWuX1r7SYMxNG4RVHXm5Z68P/8kd/3ryLD6DXdNWmJawd4NGvqq2ZkUKb/g3A==}
+    peerDependencies:
+      '@angular/cdk': '>=19.0.0'
+      '@angular/common': '>=19.0.0'
+      '@angular/core': '>=19.0.0'
+      rxjs: '>=7.0.0'
 
   ngx-sonner@3.1.0:
     resolution: {integrity: sha512-hN5GolhBeVs0gzPNZi2VPnbv/sM+3+aMGCvIjH33MC8LHz+QIiOUWGw3AbnCH/hQxy08AGwkWHVYy1acvXByQQ==}
@@ -16341,13 +16373,16 @@ snapshots:
       - rollup
       - supports-color
 
-  '@ng-icons/core@25.6.1':
+  '@ng-icons/core@29.10.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)':
     dependencies:
-      tslib: 2.6.2
+      '@angular/common': 19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+      '@angular/core': 19.2.9(rxjs@7.8.1)(zone.js@0.15.0)
+      rxjs: 7.8.1
+      tslib: 2.8.1
 
-  '@ng-icons/lucide@26.5.0':
+  '@ng-icons/lucide@30.3.0':
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@ngrx/signals@19.1.0(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)':
     dependencies:
@@ -18516,7 +18551,7 @@ snapshots:
   '@yarnpkg/parsers@3.0.2':
     dependencies:
       js-yaml: 3.14.1
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@zkochan/js-yaml@0.0.7':
     dependencies:
@@ -20321,6 +20356,20 @@ snapshots:
   electron-to-chromium@1.5.44: {}
 
   elkjs@0.9.2: {}
+
+  embla-carousel-angular@19.0.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0)):
+    dependencies:
+      '@angular/common': 19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+      '@angular/core': 19.2.9(rxjs@7.8.1)(zone.js@0.15.0)
+      embla-carousel: 8.6.0
+      embla-carousel-reactive-utils: 8.6.0(embla-carousel@8.6.0)
+      tslib: 2.8.1
+
+  embla-carousel-reactive-utils@8.6.0(embla-carousel@8.6.0):
+    dependencies:
+      embla-carousel: 8.6.0
+
+  embla-carousel@8.6.0: {}
 
   emittery@0.13.1: {}
 
@@ -23370,6 +23419,14 @@ snapshots:
     optionalDependencies:
       rollup: 4.40.2
       tailwindcss: 3.4.17(ts-node@10.9.1(@swc/core@1.5.7(@swc/helpers@0.5.11))(@types/node@18.16.9)(typescript@5.5.4))
+
+  ngx-scrollbar@18.0.0(@angular/cdk@19.2.9(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1):
+    dependencies:
+      '@angular/cdk': 19.2.9(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+      '@angular/common': 19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1)
+      '@angular/core': 19.2.9(rxjs@7.8.1)(zone.js@0.15.0)
+      rxjs: 7.8.1
+      tslib: 2.8.1
 
   ngx-sonner@3.1.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0))(rxjs@7.8.1))(@angular/core@19.2.9(rxjs@7.8.1)(zone.js@0.15.0)):
     dependencies:
