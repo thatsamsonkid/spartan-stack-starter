@@ -4,8 +4,8 @@ import { provideExperimentalZonelessChangeDetection, type ApplicationConfig } fr
 import { provideClientHydration } from '@angular/platform-browser';
 
 import { ScriptLoaderService } from '@agora/script-loader';
-import { GOOGLE_CLIENT_ID, GOOGLE_INIT_OPTIONS, GoogleAuthService, SupabaseAuth } from '@agora/supabase/auth';
-import { SUPABASE_PROJECT, SUPABASE_PUB_KEY, SupabaseClientService } from '@agora/supabase/core';
+import { GOOGLE_CLIENT_ID, GOOGLE_INIT_OPTIONS, GoogleAuthService } from '@agora/supabase/auth';
+import { provideSupabaseClient } from '@agora/supabase/core';
 import { withViewTransitions } from '@angular/router';
 import { provideTrpcClient } from '../trpc-client';
 import { provideGameStoreToken } from './store/game/game.token';
@@ -19,13 +19,10 @@ export const appConfig: ApplicationConfig = {
 		provideExperimentalZonelessChangeDetection(),
 		// Custom providers
 		ScriptLoaderService,
-		{ provide: SUPABASE_PROJECT, useValue: import.meta.env.VITE_DATABASE_REF },
-		{
-			provide: SUPABASE_PUB_KEY,
-			useValue: import.meta.env.VITE_DATABASE_PUB_KEY,
-		},
-		SupabaseClientService,
-		SupabaseAuth,
+		provideSupabaseClient({
+			projectId: import.meta.env.VITE_DATABASE_REF,
+			publicKey: import.meta.env.VITE_DATABASE_PUB_KEY,
+		}),
 		GoogleAuthService,
 		{
 			provide: GOOGLE_CLIENT_ID,
