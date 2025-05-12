@@ -4,6 +4,5 @@ import { Component } from '@angular/core';
 	selector: 'app-signup',
 	template: '',
 	styles: [''],
-	standalone: false,
 })
 export default class SignUpPageComponent {}

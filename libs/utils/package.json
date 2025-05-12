@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"sideEffects": false,
 	"peerDependencies": {
-		"@angular/common": "^18.2.0",
-		"@angular/core": "^18.2.0"
+		"@angular/core": "19.2.9",
+		"rxjs": "~7.8.1"
 	}
 }

@@ -71,6 +71,7 @@ module.exports = [
 				},
 			],
 			'@angular-eslint/prefer-output-readonly': ['error'],
+			'@angular-eslint/no-input-rename': 'off',
 		},
 	},
 	{

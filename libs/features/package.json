@@ -3,7 +3,9 @@
 	"version": "0.0.1",
 	"sideEffects": false,
 	"peerDependencies": {
-		"@angular/common": "^18.2.0",
-		"@angular/core": "^18.2.0"
+		"@agora/supabase/auth": "0.0.1",
+		"@agora/supabase/core": "0.0.1",
+		"@angular/core": "19.2.9",
+		"@ngrx/signals": "^19.1.0"
 	}
 }
