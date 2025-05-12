@@ -4,7 +4,7 @@ import { provideExperimentalZonelessChangeDetection, type ApplicationConfig } fr
 import { provideClientHydration } from '@angular/platform-browser';
 
 import { ScriptLoaderService } from '@agora/script-loader';
-import { GOOGLE_CLIENT_ID, GOOGLE_INIT_OPTIONS, GoogleAuthService } from '@agora/supabase/auth';
+import { provideGoogleAuth } from '@agora/supabase/auth';
 import { provideSupabaseClient } from '@agora/supabase/core';
 import { withViewTransitions } from '@angular/router';
 import { provideTrpcClient } from '../trpc-client';
@@ -23,12 +23,9 @@ export const appConfig: ApplicationConfig = {
 			projectId: import.meta.env.VITE_DATABASE_REF,
 			publicKey: import.meta.env.VITE_DATABASE_PUB_KEY,
 		}),
-		GoogleAuthService,
-		{
-			provide: GOOGLE_CLIENT_ID,
-			useValue: import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID,
-		},
-		{ provide: GOOGLE_INIT_OPTIONS, useValue: {} },
+		provideGoogleAuth({
+			clientId: import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID,
+		}),
 		provideGameStoreToken(),
 	],
 };
