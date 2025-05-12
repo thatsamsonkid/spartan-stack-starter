@@ -9,7 +9,7 @@ import { HlmAvatarModule } from '@spartan-ng/ui-avatar-helm';
 	template: `
 		<header class="flex justify-center px-4 py-5 shadow">
 			<a routerLink="/">
-				<img src="/assets/logo.svg" alt="spar-tan-toe logo" />
+				<img src="/assets/logo.svg" alt="app logo" />
 			</a>
 			@if (isSignedIn() && !isAnon()) {
 				<hlm-avatar variant="medium">

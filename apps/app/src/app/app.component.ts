@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { TrpcHeaders } from '../trpc-client';
 
 @Component({
-	selector: 'spar-tan-toe-root',
+	selector: 'app-root',
 	imports: [RouterOutlet],
 	template: '<router-outlet/>',
 })

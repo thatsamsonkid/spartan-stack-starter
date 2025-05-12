@@ -28,7 +28,7 @@ export const routeMeta: RouteMeta = {
 		<main class="min-w-screen flex min-h-screen items-center justify-center">
 			<section hlmCard>
 				<div hlmCardHeader>
-					<h3 hlmCardTitle>Welcome to spar-tan-toe!</h3>
+					<h3 hlmCardTitle>Welcome to app!</h3>
 				</div>
 				<div hlmCardContent class="text-center">
 					@if (!isSigned() || isAnon()) {
