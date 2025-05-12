@@ -4,10 +4,9 @@ import { RouterOutlet } from '@angular/router';
 import { TrpcHeaders } from '../trpc-client';
 
 @Component({
-	selector: 'spar-tan-toe-root',
-	standalone: true,
-	imports: [RouterOutlet],
-	template: '<router-outlet/>',
+    selector: 'spar-tan-toe-root',
+    imports: [RouterOutlet],
+    template: '<router-outlet/>'
 })
 export class AppComponent {
 	private readonly _authService = inject(SupabaseAuth);

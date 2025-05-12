@@ -4,10 +4,9 @@ import { RouterLink } from '@angular/router';
 import { HlmAvatarModule } from '@spartan-ng/ui-avatar-helm';
 
 @Component({
-	selector: 'app-header',
-	standalone: true,
-	imports: [RouterLink, HlmAvatarModule],
-	template: `
+    selector: 'app-header',
+    imports: [RouterLink, HlmAvatarModule],
+    template: `
 		<header class="flex justify-center px-4 py-5 shadow">
 			<a routerLink="/">
 				<img src="/assets/logo.svg" alt="spar-tan-toe logo" />
@@ -19,7 +18,7 @@ import { HlmAvatarModule } from '@spartan-ng/ui-avatar-helm';
 				</hlm-avatar>
 			}
 		</header>
-	`,
+	`
 })
 export class HeaderComponent {
 	private readonly _auth = inject(SupabaseAuth);

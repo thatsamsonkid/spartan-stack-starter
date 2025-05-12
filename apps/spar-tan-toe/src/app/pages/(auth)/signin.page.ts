@@ -11,13 +11,12 @@ export const routeMeta: RouteMeta = {
 };
 
 @Component({
-	selector: 'app-sign-in',
-	standalone: true,
-	imports: [HlmCardModule, GoogleSigninButtonDirective],
-	host: {
-		class: 'min-h-screen min-w-screen',
-	},
-	template: `
+    selector: 'app-sign-in',
+    imports: [HlmCardModule, GoogleSigninButtonDirective],
+    host: {
+        class: 'min-h-screen min-w-screen',
+    },
+    template: `
 		<main class="min-w-screen flex min-h-screen items-center justify-center">
 			<section hlmCard>
 				<div hlmCardHeader>
@@ -37,7 +36,7 @@ export const routeMeta: RouteMeta = {
 				</div>
 			</section>
 		</main>
-	`,
+	`
 })
 export default class SignInPageComponent {
 	private readonly _auth = inject(SupabaseAuth);

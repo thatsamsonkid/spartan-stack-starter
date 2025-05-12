@@ -17,14 +17,13 @@ export const routeMeta: RouteMeta = {
 };
 
 @Component({
-	selector: 'spartan-toe-home',
-	standalone: true,
-	imports: [HlmCardModule, HlmToasterModule, RouterLink, HeaderComponent, HlmButtonDirective],
-	host: {
-		class: 'min-h-screen min-w-screen',
-	},
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	template: `
+    selector: 'spartan-toe-home',
+    imports: [HlmCardModule, HlmToasterModule, RouterLink, HeaderComponent, HlmButtonDirective],
+    host: {
+        class: 'min-h-screen min-w-screen',
+    },
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
 		<app-header />
 		<main class="min-w-screen flex min-h-screen items-center justify-center">
 			<section hlmCard>
@@ -52,7 +51,7 @@ export const routeMeta: RouteMeta = {
 			</section>
 			<hlm-toaster />
 		</main>
-	`,
+	`
 })
 export default class HomeComponent implements OnInit {
 	private readonly _authStore = inject(AuthStore);

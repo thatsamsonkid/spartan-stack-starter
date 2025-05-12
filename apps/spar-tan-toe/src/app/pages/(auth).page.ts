@@ -3,10 +3,9 @@ import { Component, effect, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
-	selector: 'app-auth-page',
-	standalone: true,
-	imports: [RouterOutlet],
-	template: ' <router-outlet/> ',
+    selector: 'app-auth-page',
+    imports: [RouterOutlet],
+    template: ' <router-outlet/> '
 })
 export default class AuthPageComponent {
 	// private readonly route = inject(ActivatedRoute);

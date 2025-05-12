@@ -7,15 +7,14 @@ import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import type { ClassValue } from 'clsx';
 
 @Component({
-	selector: 'hlm-option',
-	standalone: true,
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	hostDirectives: [{ directive: BrnSelectOptionDirective, inputs: ['disabled', 'value'] }],
-	providers: [provideIcons({ lucideCheck })],
-	host: {
-		'[class]': '_computedClass()',
-	},
-	template: `
+    selector: 'hlm-option',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    hostDirectives: [{ directive: BrnSelectOptionDirective, inputs: ['disabled', 'value'] }],
+    providers: [provideIcons({ lucideCheck })],
+    host: {
+        '[class]': '_computedClass()',
+    },
+    template: `
 		<ng-content />
 		<span
 			[attr.dir]="_brnSelectOption.dir()"
@@ -27,7 +26,7 @@ import type { ClassValue } from 'clsx';
 			}
 		</span>
 	`,
-	imports: [NgIcon, HlmIconDirective],
+    imports: [NgIcon, HlmIconDirective]
 })
 export class HlmSelectOptionComponent {
 	protected readonly _brnSelectOption = inject(BrnSelectOptionDirective, { host: true });

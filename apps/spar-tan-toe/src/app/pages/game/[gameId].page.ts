@@ -20,17 +20,16 @@ export const routeMeta: RouteMeta = {
 };
 
 @Component({
-	selector: 'app-game-id-page',
-	standalone: true,
-	imports: [
-		HlmDialogModule,
-		BrnDialogModule,
-		GameboardCellComponent,
-		JsonPipe,
-		GameTimerComponent,
-		ChallengersComponent,
-	],
-	template: `
+    selector: 'app-game-id-page',
+    imports: [
+        HlmDialogModule,
+        BrnDialogModule,
+        GameboardCellComponent,
+        JsonPipe,
+        GameTimerComponent,
+        ChallengersComponent,
+    ],
+    template: `
 		<p>{{ gameStatus() }}</p>
 		<!-- <p>{{ id() }}</p> -->
 		<p>{{ isPlayerTurn() }}</p>
@@ -60,7 +59,7 @@ export const routeMeta: RouteMeta = {
 				</div>
 			}
 		</div>
-	`,
+	`
 })
 export default class GameIdPageComponent implements OnInit {
 	private readonly _route = inject(ActivatedRoute);

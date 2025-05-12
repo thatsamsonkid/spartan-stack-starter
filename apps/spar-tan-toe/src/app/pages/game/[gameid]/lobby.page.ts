@@ -11,10 +11,10 @@ import { GameStore } from '../../../store/game/games.store';
 import { ChallengersComponent } from '../components/challengers.component';
 
 @Component({
-	selector: 'app-lobby-page',
-	imports: [ChallengersComponent, HlmButtonDirective, HlmToasterModule, BrnSelectImports, HlmSelectImports],
-	providers: [provideIcons({ lucideChevronUp, lucideChevronDown })],
-	template: `
+    selector: 'app-lobby-page',
+    imports: [ChallengersComponent, HlmButtonDirective, HlmToasterModule, BrnSelectImports, HlmSelectImports],
+    providers: [provideIcons({ lucideChevronUp, lucideChevronDown })],
+    template: `
 		<div class="m-auto w-full max-w-lg space-y-6 p-6">
 			<div>
 				<h1 class="text-2xl">Game Lobby</h1>
@@ -60,8 +60,7 @@ import { ChallengersComponent } from '../components/challengers.component';
 			</div>
 		</div>
 		<hlm-toaster />
-	`,
-	standalone: true,
+	`
 })
 export default class LobbyPageComponent {
 	private readonly _navigator = inject(NAVIGATOR_TOKEN); // Inject the navigator
