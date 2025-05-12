@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
-import { db } from '../../db/db';
+import { getDbConnection } from '../../db/db';
 import { game } from '../../db/schema';
 import { authProcedure, publicProcedure, router } from '../trpc';
 
@@ -28,13 +28,18 @@ export const gameRouter = router({
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthenticated' });
 		}
 		return executeDbOperation(
-			() => db.insert(game).values({ player_1: ctx.supabase.user?.id }).returning(),
+			() => getDbConnection().db.insert(game).values({ player_1: ctx.supabase.user?.id }).returning(),
 			'Failed to create a new game',
 		).then((result) => ({ data: result[0], error: null }));
 	}),
 	join: authProcedure.input(z.object({ gameId: z.string() })).mutation(async ({ ctx, input }) => {
 		return executeDbOperation(
-			() => db.update(game).set({ player_2: ctx.supabase.user?.id }).where(eq(game.id, input.gameId)).returning(),
+			() =>
+				getDbConnection()
+					.db.update(game)
+					.set({ player_2: ctx.supabase.user?.id })
+					.where(eq(game.id, input.gameId))
+					.returning(),
 			'Failed to join the game',
 		).then((result) => result[0]);
 	}),
@@ -54,6 +59,9 @@ export const gameRouter = router({
 	findGame: publicProcedure
 		.input(z.object({ id: z.string() }))
 		.query(async ({ input }) =>
-			executeDbOperation(() => db.select().from(game).where(eq(game.id, input.id)), 'Failed to select the game'),
+			executeDbOperation(
+				() => getDbConnection().db.select().from(game).where(eq(game.id, input.id)),
+				'Failed to select the game',
+			),
 		),
 });
