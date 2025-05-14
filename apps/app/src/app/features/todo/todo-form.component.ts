@@ -1,11 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BrnCommandImports } from '@spartan-ng/brain/command';
+import {
+	BrnDialogCloseDirective,
+	BrnDialogComponent,
+	BrnDialogContentDirective,
+	BrnDialogOverlayComponent,
+} from '@spartan-ng/brain/dialog';
+import { BrnProgressImports } from '@spartan-ng/brain/progress';
 import { HlmBadgeDirective } from '@spartan-ng/ui-badge-helm';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import { HlmCalendarComponent } from '@spartan-ng/ui-calendar-helm';
 import { HlmCommandImports } from '@spartan-ng/ui-command-helm';
+import { HlmDialogOverlayDirective } from '@spartan-ng/ui-dialog-helm';
 import { HlmFormFieldModule } from '@spartan-ng/ui-formfield-helm';
 import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
@@ -13,10 +22,11 @@ import { HlmProgressDirective } from '@spartan-ng/ui-progress-helm';
 import { HlmSelectDirective } from '@spartan-ng/ui-select-helm';
 import { TodoPriority, TodoStatus } from '../../core/types/todo.types';
 import { TodoStore } from '../../store/todo.store';
-
 @Component({
 	selector: 'app-todo-form',
-	standalone: true,
+	host: {
+		'(window:keydown)': 'onKeyDown($event)',
+	},
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
@@ -27,13 +37,22 @@ import { TodoStore } from '../../store/todo.store';
 		HlmSelectDirective,
 		HlmCalendarComponent,
 		HlmBadgeDirective,
-		...HlmCommandImports,
+		BrnCommandImports,
+		HlmCommandImports,
+		BrnDialogComponent,
+		BrnDialogCloseDirective,
+		BrnDialogContentDirective,
+		BrnDialogOverlayComponent,
+		HlmDialogOverlayDirective,
 		HlmFormFieldModule,
+		BrnProgressImports,
 	],
 	template: `
+		<!-- <brn-dialog [state]="'open'" (stateChanged)="stateChanged($event)">
+			<brn-dialog-overlay hlm /> -->
 		<div class="container mx-auto max-w-2xl p-4">
 			<div class="mb-6 flex items-center gap-4">
-				<button hlmBtn variant="ghost" size="icon" (click)="router.navigate(['/todos'])">
+				<button hlmBtn variant="ghost" size="icon">
 					<ng-icon hlm name="arrow-left" />
 				</button>
 				<h1 class="text-2xl font-bold">
@@ -42,7 +61,9 @@ import { TodoStore } from '../../store/todo.store';
 			</div>
 
 			@if (todoStore.loading()) {
-				<div hlmProgress value="100" />
+				<brn-progress hlm class="w-80" aria-labelledby="loading" value="100">
+					<brn-progress-indicator hlm />
+				</brn-progress>
 			}
 
 			@if (todoStore.error()) {
@@ -121,14 +142,9 @@ import { TodoStore } from '../../store/todo.store';
 							</span>
 						}
 					</div>
-					<div hlmCommand>
-						<input
-							hlmInput
-							placeholder="Add tags..."
-							[hlmCommandInput]
-							[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-							(matChipInputTokenEnd)="addTag($event)"
-						/>
+				</div>
+				<!-- <div hlmCommand>
+						<input hlmInput placeholder="Add tags..." hlm-command-search-input />
 						<div hlmCommandList>
 							@for (tag of filteredTags; track tag.id) {
 								<button hlmCommandItem (click)="selectedTag(tag)">
@@ -137,8 +153,7 @@ import { TodoStore } from '../../store/todo.store';
 								</button>
 							}
 						</div>
-					</div>
-				</div>
+					</div> -->
 
 				<div class="flex justify-end gap-4">
 					<button hlmBtn variant="outline" type="button" (click)="router.navigate(['/todos'])">Cancel</button>
@@ -148,6 +163,7 @@ import { TodoStore } from '../../store/todo.store';
 				</div>
 			</form>
 		</div>
+		<!-- </brn-dialog> -->
 	`,
 })
 export class TodoFormComponent implements OnInit {
@@ -156,7 +172,15 @@ export class TodoFormComponent implements OnInit {
 	protected readonly router = inject(Router);
 	protected readonly todoStore = inject(TodoStore);
 
-	protected todoForm: FormGroup;
+	protected todoForm = this._fb.group({
+		title: ['', Validators.required],
+		description: [''],
+		status: ['pending'],
+		priority: ['medium'],
+		category_id: [null],
+		due_date: [null],
+	});
+
 	protected isEditMode = false;
 	protected readonly statuses: TodoStatus[] = ['pending', 'in_progress', 'completed'];
 	protected readonly priorities: TodoPriority[] = ['low', 'medium', 'high'];
@@ -164,15 +188,21 @@ export class TodoFormComponent implements OnInit {
 	protected filteredTags: any[] = [];
 	protected readonly separatorKeysCodes: number[] = [13, 188]; // Enter and comma
 
-	constructor() {
-		this.todoForm = this._fb.group({
-			title: ['', Validators.required],
-			description: [''],
-			status: ['pending'],
-			priority: ['medium'],
-			category_id: [null],
-			due_date: [null],
-		});
+	public command = signal('');
+	public state = signal<'closed' | 'open'>('closed');
+
+	onKeyDown(event: KeyboardEvent) {
+		if ((event.metaKey || event.ctrlKey) && (event.key === 'k' || event.key === 'K')) {
+			this.state.set('open');
+		}
+	}
+	stateChanged(state: 'open' | 'closed') {
+		this.state.set(state);
+	}
+
+	commandSelected(selected: string) {
+		this.state.set('closed');
+		this.command.set(selected);
 	}
 
 	ngOnInit() {
@@ -186,6 +216,12 @@ export class TodoFormComponent implements OnInit {
 		}
 	}
 
+	createNewTodo() {
+		console.log('createNewTodo');
+		this.state.set('open');
+		this.router.navigate(['/todos/new']);
+	}
+
 	onSubmit() {
 		if (this.todoForm.valid) {
 			const formValue = this.todoForm.value;
@@ -196,9 +232,9 @@ export class TodoFormComponent implements OnInit {
 
 			if (this.isEditMode) {
 				const todoId = this._route.snapshot.paramMap.get('id');
-				this.todoStore.updateTodo({ id: todoId!, ...todoData });
+				// this.todoStore.updateTodo({ id: todoId!, ...todoData });
 			} else {
-				this.todoStore.createTodo(todoData);
+				// this.todoStore.createTodo(todoData);
 			}
 		}
 	}

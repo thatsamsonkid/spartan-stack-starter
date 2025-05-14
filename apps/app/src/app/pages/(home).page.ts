@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import { HlmCardModule } from '@spartan-ng/ui-card-helm';
 import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
@@ -9,7 +9,6 @@ import { TodoListComponent } from '../features/todo/todo-list.component';
 
 @Component({
 	selector: 'spartan-home',
-	standalone: true,
 	imports: [
 		HlmCardModule,
 		HlmToasterComponent,
@@ -18,6 +17,7 @@ import { TodoListComponent } from '../features/todo/todo-list.component';
 		HlmButtonDirective,
 		HlmIconDirective,
 		TodoListComponent,
+		RouterOutlet,
 	],
 	host: {
 		class: 'min-h-screen min-w-screen',
@@ -35,6 +35,7 @@ import { TodoListComponent } from '../features/todo/todo-list.component';
 			</div>
 
 			<app-todo-list />
+			<router-outlet />
 			<hlm-toaster />
 		</main>
 	`,

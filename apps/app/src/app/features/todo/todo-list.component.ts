@@ -32,10 +32,10 @@ import { TodoStore } from '../../store/todo.store';
 		<div class="container mx-auto p-4">
 			<div class="mb-6 flex items-center justify-between">
 				<h1 class="text-2xl font-bold">My Todos</h1>
-				<button spartan-button variant="default" [routerLink]="['/todos/new']">
+				<!-- <button spartan-button variant="default" [routerLink]="['/todos/new']">
 					<ng-icon hlm name="plus" class="mr-2" />
 					New Todo
-				</button>
+				</button> -->
 			</div>
 
 			@if (todoStore.loading()) {

@@ -9,4 +9,4 @@ import { TodoFormComponent } from '../../../../features/todo/todo-form.component
 		<app-todo-form />
 	`,
 })
-export default class EditTodoPage {}
+export default class EditTodoPageComponent {}
