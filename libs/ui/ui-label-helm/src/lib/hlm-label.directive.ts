@@ -31,7 +31,7 @@ export type LabelVariants = VariantProps<typeof labelVariants>;
 
 @Directive({
 	selector: '[hlmLabel]',
-	standalone: true,
+
 	hostDirectives: [
 		{
 			directive: BrnLabelDirective,

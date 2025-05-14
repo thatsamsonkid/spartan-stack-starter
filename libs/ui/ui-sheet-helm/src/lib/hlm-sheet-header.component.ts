@@ -4,7 +4,7 @@ import type { ClassValue } from 'clsx';
 
 @Component({
 	selector: 'hlm-sheet-header',
-	standalone: true,
+
 	template: `
 		<ng-content />
 	`,

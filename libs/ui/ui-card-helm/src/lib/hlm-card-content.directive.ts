@@ -11,7 +11,7 @@ export type CardContentVariants = VariantProps<typeof cardContentVariants>;
 
 @Directive({
 	selector: '[hlmCardContent]',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 	},

@@ -5,7 +5,7 @@ import type { ClassValue } from 'clsx';
 
 @Directive({
 	selector: '[hlmMenuItemCheckbox]',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 	},

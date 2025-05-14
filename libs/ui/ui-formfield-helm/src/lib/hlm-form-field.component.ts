@@ -16,7 +16,7 @@ import { HlmErrorDirective } from './hlm-error.directive';
 			}
 		}
 	`,
-	standalone: true,
+
 	host: {
 		class: 'space-y-2 block',
 	},

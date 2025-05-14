@@ -2,7 +2,6 @@ import { Component, computed, input } from '@angular/core';
 import { hlm } from '@spartan-ng/brain/core';
 
 @Component({
-	standalone: true,
 	selector: 'hlm-command-separator',
 	template: '',
 	host: {

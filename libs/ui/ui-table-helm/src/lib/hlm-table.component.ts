@@ -13,7 +13,7 @@ import type { ClassValue } from 'clsx';
 
 @Component({
 	selector: 'hlm-table',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 		role: 'table',

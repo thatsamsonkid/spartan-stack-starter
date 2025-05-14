@@ -4,7 +4,7 @@ import { type ClassValue } from 'clsx';
 
 @Directive({
 	selector: '[hlmInputOtpGroup]',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 	},

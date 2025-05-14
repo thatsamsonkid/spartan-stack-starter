@@ -4,7 +4,6 @@ import { GoogleAuthService } from './google-auth.service';
 
 @Directive({
 	selector: 'google-signin-button',
-	standalone: true,
 })
 export class GoogleSigninButtonDirective {
 	type = input<'icon' | 'standard'>('icon');

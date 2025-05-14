@@ -4,7 +4,7 @@ import type { ClassValue } from 'clsx';
 
 @Component({
 	selector: 'hlm-trow',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 		role: 'row',

@@ -13,7 +13,7 @@ const parseDividedString = (value: NumberInput): NumberInput => {
 
 @Directive({
 	selector: '[hlmAspectRatio]',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 		'[style.padding-bottom]': '_computedPaddingBottom()',

@@ -3,8 +3,7 @@ import { defineConfig } from 'drizzle-kit';
 import path from 'node:path';
 
 dotenv.config({
-	//  path: path.join(__dirname, './.env.local')
-	path: path.join(__dirname, './.env.production'),
+	path: path.join(__dirname, './.env'),
 });
 
 export default defineConfig({

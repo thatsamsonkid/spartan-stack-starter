@@ -25,7 +25,7 @@ export type SpinnerVariants = VariantProps<typeof spinnerVariants>;
 
 @Component({
 	selector: 'hlm-spinner',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 		role: 'status',

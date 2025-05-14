@@ -5,7 +5,7 @@ import type { ClassValue } from 'clsx';
 
 @Directive({
 	selector: '[hlmBreadcrumbLink]',
-	standalone: true,
+
 	hostDirectives: [
 		{
 			directive: RouterLink,

@@ -5,7 +5,7 @@ import type { ClassValue } from 'clsx';
 
 @Directive({
 	selector: '[hlmMenuBarItem]',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 	},

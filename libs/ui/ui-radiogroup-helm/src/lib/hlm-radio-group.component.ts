@@ -5,7 +5,7 @@ import type { ClassValue } from 'clsx';
 
 @Component({
 	selector: 'hlm-radio-group',
-	standalone: true,
+
 	hostDirectives: [
 		{
 			directive: BrnRadioGroupDirective,

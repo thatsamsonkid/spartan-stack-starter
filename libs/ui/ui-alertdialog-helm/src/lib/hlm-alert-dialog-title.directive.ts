@@ -5,7 +5,7 @@ import type { ClassValue } from 'clsx';
 
 @Directive({
 	selector: '[hlmAlertDialogTitle]',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 	},

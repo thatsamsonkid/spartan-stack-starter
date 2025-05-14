@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
 	selector: 'app-game-timer',
-	standalone: true,
+
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	host: {
 		class: 'flex justify-center',

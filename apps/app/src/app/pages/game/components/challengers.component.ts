@@ -3,7 +3,7 @@ import { Player } from '../../../store/game/game.types';
 
 @Component({
 	selector: 'app-game-challengers',
-	standalone: true,
+
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
 		<div>

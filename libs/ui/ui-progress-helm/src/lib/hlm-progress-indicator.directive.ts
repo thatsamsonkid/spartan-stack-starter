@@ -5,7 +5,7 @@ import type { ClassValue } from 'clsx';
 
 @Directive({
 	selector: '[hlmProgressIndicator],brn-progress-indicator[hlm]',
-	standalone: true,
+
 	host: {
 		'[class]': '_computedClass()',
 		'[class.animate-indeterminate]': 'indeterminate()',
