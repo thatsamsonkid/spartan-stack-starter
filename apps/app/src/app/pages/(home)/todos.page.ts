@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TodoListComponent } from '../../features/todo/todo-list/todo-list.component';
+import { TodoListComponent } from '../../features/todo/todo-list.component';
 
 @Component({
 	selector: 'app-todos-page',

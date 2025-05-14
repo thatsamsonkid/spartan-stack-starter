@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TodoFormComponent } from '../../../../features/todo/todo-form/todo-form.component';
+import { TodoFormComponent } from '../../../../features/todo/todo-form.component';
 
 @Component({
 	selector: 'app-edit-todo-page',

@@ -10,16 +10,13 @@ import { TrpcHeaders } from '../trpc-client';
 })
 export class AppComponent {
 	private readonly _authService = inject(SupabaseAuth);
-	// Consider moving into a service, unfortunate authService is in lib here
 
 	constructor() {
-		effect(
-			() =>
-				TrpcHeaders.update((h) => ({
-					...h,
-					authorization: this._authService.isAuthenticated() ? `Bearer ${this._authService.authToken()}` : undefined,
-				})),
-			{ allowSignalWrites: true },
+		effect(() =>
+			TrpcHeaders.update((h) => ({
+				...h,
+				authorization: this._authService.isAuthenticated() ? `Bearer ${this._authService.authToken()}` : undefined,
+			})),
 		);
 	}
 }

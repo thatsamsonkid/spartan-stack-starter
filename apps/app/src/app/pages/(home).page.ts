@@ -5,7 +5,7 @@ import { HlmCardModule } from '@spartan-ng/ui-card-helm';
 import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import { HlmToasterComponent } from '@spartan-ng/ui-sonner-helm';
 import { HeaderComponent } from '../core/components/header.component';
-import { TodoListComponent } from '../features/todo/todo-list/todo-list.component';
+import { TodoListComponent } from '../features/todo/todo-list.component';
 
 @Component({
 	selector: 'spartan-home',

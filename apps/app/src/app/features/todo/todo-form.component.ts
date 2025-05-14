@@ -5,14 +5,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HlmBadgeDirective } from '@spartan-ng/ui-badge-helm';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
 import { HlmCalendarComponent } from '@spartan-ng/ui-calendar-helm';
-import { HlmCommandDirective } from '@spartan-ng/ui-command-helm';
-import { HlmFormFieldDirective } from '@spartan-ng/ui-formfield-helm';
+import { HlmCommandImports } from '@spartan-ng/ui-command-helm';
+import { HlmFormFieldModule } from '@spartan-ng/ui-formfield-helm';
 import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmProgressDirective } from '@spartan-ng/ui-progress-helm';
 import { HlmSelectDirective } from '@spartan-ng/ui-select-helm';
-import { TodoPriority, TodoStatus } from '../../../core/types/todo.types';
-import { TodoStore } from '../../../store/todo.store';
+import { TodoPriority, TodoStatus } from '../../core/types/todo.types';
+import { TodoStore } from '../../store/todo.store';
 
 @Component({
 	selector: 'app-todo-form',
@@ -23,12 +23,12 @@ import { TodoStore } from '../../../store/todo.store';
 		HlmButtonDirective,
 		HlmIconDirective,
 		HlmProgressDirective,
-		HlmFormFieldDirective,
 		HlmInputDirective,
 		HlmSelectDirective,
 		HlmCalendarComponent,
 		HlmBadgeDirective,
-		HlmCommandDirective,
+		...HlmCommandImports,
+		HlmFormFieldModule,
 	],
 	template: `
 		<div class="container mx-auto max-w-2xl p-4">

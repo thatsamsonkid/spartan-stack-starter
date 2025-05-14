@@ -1,5 +1,5 @@
 import '@angular/platform-server/init';
-import 'zone.js/node';
+// import 'zone.js/node';
 
 import { provideServerContext } from '@analogjs/router/server';
 import type { ServerContext } from '@analogjs/router/tokens';

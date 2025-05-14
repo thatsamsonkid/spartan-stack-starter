@@ -1,11 +1,8 @@
 import { router } from '../trpc';
-import { gameRouter } from './games';
-import { movesRouter } from './moves';
-// import { noteRouter } from './notes';
+import { todoRouter } from './todos';
 
 export const appRouter = router({
-	game: gameRouter,
-	moves: movesRouter,
+	todo: todoRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;

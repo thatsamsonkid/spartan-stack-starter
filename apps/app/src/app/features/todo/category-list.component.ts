@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Category } from '../../../core/types/todo.types';
+import { Category } from '../../core/types/todo.types';
 import { TodoStore } from '../../store/todo.store';
 
 @Component({

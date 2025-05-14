@@ -9,8 +9,8 @@ import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import { HlmMenuModule } from '@spartan-ng/ui-menu-helm';
 import { HlmProgressIndicatorDirective, HlmProgressModule } from '@spartan-ng/ui-progress-helm';
 import { HlmSeparatorDirective } from '@spartan-ng/ui-separator-helm';
-import { Todo } from '../../../core/types/todo.types';
-import { TodoStore } from '../../../store/todo.store';
+import { Todo } from '../../core/types/todo.types';
+import { TodoStore } from '../../store/todo.store';
 
 @Component({
 	selector: 'app-todo-list',

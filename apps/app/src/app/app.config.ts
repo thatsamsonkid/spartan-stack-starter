@@ -7,7 +7,6 @@ import { ScriptLoaderService } from '@agora/script-loader';
 import { provideSupabaseClient } from '@agora/supabase/core';
 import { withViewTransitions } from '@angular/router';
 import { provideTrpcClient } from '../trpc-client';
-import { provideGameStoreToken } from './store/game/game.token';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -26,6 +25,5 @@ export const appConfig: ApplicationConfig = {
 		// provideGoogleAuth({
 		// 	clientId: import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID,
 		// }),
-		provideGameStoreToken(),
 	],
 };
