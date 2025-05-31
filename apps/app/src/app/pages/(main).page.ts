@@ -30,17 +30,9 @@ import { TodoListComponent } from '../features/todo/todo-list.component';
 	template: `
 		<app-header />
 		<main class="container mx-auto max-w-screen-xl p-4">
-			<div class="mb-6 flex items-center justify-between">
-				<h1 class="text-2xl font-bold">My Todos</h1>
-				<button hlmBtn [routerLink]="['/todos/new']">
-					New Todo
-					<ng-icon hlm name="lucidePlus" class="ml-2" />
-				</button>
-			</div>
-
-			<app-todo-list />
+			<router-outlet />
 			<hlm-toaster />
 		</main>
 	`,
 })
-export default class HomeComponent {}
+export default class MainComponent {}

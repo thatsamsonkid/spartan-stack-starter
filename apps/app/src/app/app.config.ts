@@ -1,5 +1,5 @@
-import { provideFileRouter, withDebugRoutes } from '@analogjs/router';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideFileRouter, requestContextInterceptor, withDebugRoutes } from '@analogjs/router';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideExperimentalZonelessChangeDetection, type ApplicationConfig } from '@angular/core';
 import { provideClientHydration } from '@angular/platform-browser';
 
@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
 	providers: [
 		provideFileRouter(withDebugRoutes(), withViewTransitions()),
 		provideClientHydration(),
-		provideHttpClient(withFetch()),
+		provideHttpClient(withFetch(), withInterceptors([requestContextInterceptor])),
 		provideTrpcClient(),
 		provideExperimentalZonelessChangeDetection(),
 		// Custom providers

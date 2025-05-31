@@ -11,17 +11,36 @@ export default defineConfig(({ mode }) => {
 		publicDir: 'src/public',
 
 		ssr: {
-			noExternal: ['@analogjs/trpc', '@trpc/server'],
+			noExternal: [
+				'@spartan-ng/**',
+				'@angular/cdk/**',
+				'@ng-icons/**',
+				'ngx-scrollbar/**',
+				'ng-signal-forms/**',
+				'@analogjs/trpc',
+				'@trpc/server',
+			],
 		},
 
 		build: {
 			outDir: '../../dist/./app/client',
 			reportCompressedSize: true,
 			commonjsOptions: { transformMixedEsModules: true },
-			target: ['es2022'],
+			target: ['es2020'],
 		},
 		optimizeDeps: {
-			include: ['@supabase/supabase-js', '@spartan-ng/brain', 'class-variance-authority', 'ngx-sonner'],
+			include: [
+				'@supabase/supabase-js',
+				'@spartan-ng/brain',
+				'class-variance-authority',
+				'ngx-sonner',
+				'@angular/core',
+				'@angular/common',
+				'@angular/platform-browser',
+				'@angular/platform-browser-dynamic',
+				'@angular/forms',
+				'@angular/router',
+			],
 		},
 		resolve: {
 			mainFields: ['browser', 'module'],

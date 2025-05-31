@@ -1,6 +1,6 @@
 import { FormAction } from '@analogjs/router';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -16,8 +16,8 @@ import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { HlmSelectImports } from '@spartan-ng/ui-select-helm';
-import { TodoPriority, TodoStatus } from '../../core/types/todo.types';
-import { TodoStore } from '../../store/todo.store';
+import { TodoPriority, TodoStatus } from '../../../core/types/todo.types';
+import { TodoStore } from '../../../store/todo.store';
 
 type FormErrors =
 	| {
@@ -26,10 +26,7 @@ type FormErrors =
 	| undefined;
 
 @Component({
-	selector: 'app-todo-form',
-	host: {
-		'(window:keydown)': 'onKeyDown($event)',
-	},
+	selector: 'app-new-todo-page',
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
@@ -203,10 +200,10 @@ type FormErrors =
 				</div>
 			</form>
 		</div>
-		<!-- </brn-dialog> -->
+		<!-- <app-todo-form /> -->
 	`,
 })
-export class TodoFormComponent implements OnInit {
+export default class NewTodoPageComponent {
 	private readonly _fb = inject(FormBuilder);
 	private readonly _route = inject(ActivatedRoute);
 	protected readonly router = inject(Router);
