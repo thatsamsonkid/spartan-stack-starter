@@ -5,18 +5,36 @@ import { getDbConnection } from '../../db/db';
 import { categories, sharedTodos, tags, todoTags, todos } from '../../db/schema';
 import { authProcedure, router } from '../trpc';
 
-async function executeDbOperation(operation: () => Promise<any>, errorMsg: string) {
+type DbResult<T> = {
+	data: T | null;
+	error: string | null;
+	success: boolean;
+};
+
+async function executeDbOperation<T>(operation: () => Promise<T>, errorMsg: string): Promise<DbResult<T>> {
 	try {
 		const result = await operation();
-		return result;
+		return {
+			data: result,
+			error: null,
+			success: true,
+		};
 	} catch (error) {
 		console.error(error);
-		throw new TRPCError({
-			code: 'INTERNAL_SERVER_ERROR',
-			message: errorMsg,
-			cause: error,
-		});
+		return {
+			data: null,
+			error: errorMsg,
+			success: false,
+		};
 	}
+}
+
+// Helper function to handle TRPC responses
+function handleDbResult<T>(result: DbResult<T>): { data: T | null; error: string | null } {
+	return {
+		data: result.success ? result.data : null,
+		error: result.success ? null : result.error,
+	};
 }
 
 export const todoRouter = router({
@@ -26,17 +44,19 @@ export const todoRouter = router({
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthenticated' });
 		}
 
-		return executeDbOperation(
+		const result = await executeDbOperation(
 			() =>
 				getDbConnection()
 					.db.select()
 					.from(todos)
-					.where(eq(todos.user_id, ctx.user.id))
+					.where(eq(todos.user_id, ctx?.user?.id ?? ''))
 					.leftJoin(categories, eq(todos.category_id, categories.id))
 					.leftJoin(todoTags, eq(todos.id, todoTags.todo_id))
 					.leftJoin(tags, eq(todoTags.tag_id, tags.id)),
 			'Failed to fetch todos',
 		);
+
+		return handleDbResult(result);
 	}),
 
 	// Get a single todo by ID
@@ -45,17 +65,19 @@ export const todoRouter = router({
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthenticated' });
 		}
 
-		return executeDbOperation(
+		const result = await executeDbOperation(
 			() =>
 				getDbConnection()
 					.db.select()
 					.from(todos)
-					.where(and(eq(todos.id, input.id), eq(todos.user_id, ctx.user.id)))
+					.where(and(eq(todos.id, input.id), eq(todos.user_id, ctx?.user?.id ?? '')))
 					.leftJoin(categories, eq(todos.category_id, categories.id))
 					.leftJoin(todoTags, eq(todos.id, todoTags.todo_id))
 					.leftJoin(tags, eq(todoTags.tag_id, tags.id)),
 			'Failed to fetch todo',
 		);
+
+		return handleDbResult(result);
 	}),
 
 	// Create a new todo
@@ -66,39 +88,42 @@ export const todoRouter = router({
 				description: z.string().optional(),
 				status: z.enum(['pending', 'in_progress', 'completed']).default('pending'),
 				priority: z.enum(['low', 'medium', 'high']).default('medium'),
-				due_date: z.string().optional(),
-				category_id: z.string().optional(),
-				tag_ids: z.array(z.string()).optional(),
+				due_date: z.string().nullish(),
+				category_id: z.string().nullish(),
+				tagIds: z.array(z.string()).optional(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			console.log('ctx', ctx);
 			if (!ctx.user?.id) {
 				throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthenticated' });
 			}
 
-			const { tag_ids, ...todoData } = input;
+			const { tagIds, ...todoData } = input;
 
-			return executeDbOperation(async () => {
+			const result = await executeDbOperation(async () => {
 				const { db } = getDbConnection();
 				const [todo] = await db
 					.insert(todos)
 					.values({
 						...todoData,
-						user_id: ctx.user.id,
+						user_id: ctx?.user?.id ?? '',
 					})
 					.returning();
 
-				if (tag_ids?.length) {
+				if (tagIds?.length) {
 					await db.insert(todoTags).values(
-						tag_ids.map((tag_id) => ({
+						tagIds.map((tagId) => ({
 							todo_id: todo.id,
-							tag_id,
+							tag_id: tagId,
 						})),
 					);
 				}
 
 				return todo;
 			}, 'Failed to create todo');
+
+			return handleDbResult(result);
 		}),
 
 	// Update an existing todo
@@ -110,9 +135,9 @@ export const todoRouter = router({
 				description: z.string().optional(),
 				status: z.enum(['pending', 'in_progress', 'completed']).optional(),
 				priority: z.enum(['low', 'medium', 'high']).optional(),
-				due_date: z.string().optional(),
-				category_id: z.string().optional(),
-				tag_ids: z.array(z.string()).optional(),
+				due_date: z.string().nullish(),
+				category_id: z.string().nullish(),
+				tagIds: z.array(z.string()).optional(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -120,25 +145,25 @@ export const todoRouter = router({
 				throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthenticated' });
 			}
 
-			const { id, tag_ids, ...updateData } = input;
+			const { id, tagIds, ...updateData } = input;
 
-			return executeDbOperation(async () => {
+			const result = await executeDbOperation(async () => {
 				const { db } = getDbConnection();
 				const [todo] = await db
 					.update(todos)
 					.set(updateData)
-					.where(and(eq(todos.id, id), eq(todos.user_id, ctx.user.id)))
+					.where(and(eq(todos.id, id), eq(todos.user_id, ctx?.user?.id ?? '')))
 					.returning();
 
-				if (tag_ids) {
+				if (tagIds) {
 					// Delete existing tags
 					await db.delete(todoTags).where(eq(todoTags.todo_id, id));
 					// Insert new tags
-					if (tag_ids.length) {
+					if (tagIds.length) {
 						await db.insert(todoTags).values(
-							tag_ids.map((tag_id) => ({
+							tagIds.map((tagId) => ({
 								todo_id: id,
-								tag_id,
+								tag_id: tagId,
 							})),
 						);
 					}
@@ -146,6 +171,8 @@ export const todoRouter = router({
 
 				return todo;
 			}, 'Failed to update todo');
+
+			return handleDbResult(result);
 		}),
 
 	// Delete a todo
@@ -154,14 +181,16 @@ export const todoRouter = router({
 			throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthenticated' });
 		}
 
-		return executeDbOperation(
+		const result = await executeDbOperation(
 			() =>
 				getDbConnection()
 					.db.delete(todos)
-					.where(and(eq(todos.id, input.id), eq(todos.user_id, ctx.user.id)))
+					.where(and(eq(todos.id, input.id), eq(todos.user_id, ctx?.user?.id ?? '')))
 					.returning(),
 			'Failed to delete todo',
 		);
+
+		return handleDbResult(result);
 	}),
 
 	// Share a todo with another user
@@ -178,7 +207,7 @@ export const todoRouter = router({
 				throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Unauthenticated' });
 			}
 
-			return executeDbOperation(
+			const result = await executeDbOperation(
 				() =>
 					getDbConnection()
 						.db.insert(sharedTodos)
@@ -189,5 +218,7 @@ export const todoRouter = router({
 						.returning(),
 				'Failed to share todo',
 			);
+
+			return handleDbResult(result);
 		}),
 });

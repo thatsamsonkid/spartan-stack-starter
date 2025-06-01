@@ -1,4 +1,3 @@
-import { FormAction } from '@analogjs/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -45,7 +44,6 @@ type FormErrors =
 		BrnSelectImports,
 		HlmSelectImports,
 		NgIcon,
-		FormAction,
 	],
 	providers: [provideIcons({ lucideArrowLeft })],
 	template: `
@@ -73,14 +71,10 @@ type FormErrors =
 				</div>
 			}
 
-			<form
-				[formGroup]="todoForm"
-				method="post"
-				(onSuccess)="onSuccess()"
+			<!-- 				(onSuccess)="onSuccess()"
 				(onError)="onError($any($event))"
-				(onStateChange)="errors.set(undefined)"
-				class="space-y-4"
-			>
+				(onStateChange)="errors.set(undefined)" -->
+			<form [formGroup]="todoForm" class="space-y-4" (ngSubmit)="onSubmit()">
 				<hlm-form-field>
 					<label hlmLabel>Title</label>
 					<input hlmInput class="w-full" formControlName="title" placeholder="Enter todo title" required />
@@ -274,11 +268,12 @@ export class TodoFormComponent implements OnInit {
 	}
 
 	onSubmit() {
+		console.log('onSubmit', this.todoForm.value);
 		if (this.todoForm.valid) {
 			const formValue = this.todoForm.value;
 			const todoData = {
 				...formValue,
-				tag_ids: this.selectedTags.map((tag) => tag.id),
+				// tag_ids: this.selectedTags.map((tag) => tag.id),
 			};
 
 			if (this.isEditMode) {

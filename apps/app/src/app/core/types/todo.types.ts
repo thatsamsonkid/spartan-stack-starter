@@ -46,8 +46,8 @@ export interface CreateTodoInput {
 	description?: string;
 	status?: TodoStatus;
 	priority?: TodoPriority;
-	due_date?: string;
-	category_id?: string;
+	due_date?: string | null;
+	category_id?: string | null;
 	tag_ids?: string[];
 }
 

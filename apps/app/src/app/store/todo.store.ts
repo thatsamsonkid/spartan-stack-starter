@@ -1,6 +1,8 @@
 import { SupabaseClientService } from '@agora/supabase/core';
 import { computed, inject } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { firstValueFrom } from 'rxjs';
+import { TrpcClient } from '../../trpc-client';
 import type {
 	Category,
 	CreateCategoryInput,
@@ -53,8 +55,8 @@ export const TodoStore = signalStore(
 			return result;
 		}),
 	})),
-	withMethods((store) => {
-		const supabase = inject(SupabaseClientService);
+	withMethods((store, trpc = inject(TrpcClient), supabase = inject(SupabaseClientService)) => {
+		// const supabase = inject(SupabaseClientService);
 
 		return {
 			// Todo methods
@@ -78,23 +80,25 @@ export const TodoStore = signalStore(
 			async createTodo(input: CreateTodoInput) {
 				patchState(store, { loading: true });
 				try {
-					const { data: todo, error } = await supabase.client.from('todos').insert(input).select().single();
+					const { data, error } = await firstValueFrom(trpc.todo.create.mutate(input));
+					// const { data: todo, error } = await supabase.client.from('todos').insert(input).select().single();
 
 					if (error) throw error;
 
-					if (input.tag_ids?.length) {
-						const tagInserts = input.tag_ids.map((tag_id) => ({
-							todo_id: todo.id,
-							tag_id,
-						}));
+					// if (input.tag_ids?.length) {
+					// 	const tagInserts = input.tag_ids.map((tag_id) => ({
+					// 		todo_id: todo.id,
+					// 		tag_id,
+					// 	}));
 
-						const { error: tagError } = await supabase.client.from('todo_tags').insert(tagInserts);
+					// 	const { error: tagError } = await supabase.client.from('todo_tags').insert(tagInserts);
 
-						if (tagError) throw tagError;
-					}
+					// 	if (tagError) throw tagError;
+					// }
 
 					await this.loadTodos();
 				} catch (error) {
+					console.log('error', error);
 					patchState(store, { error: error instanceof Error ? error.message : 'Failed to create todo' });
 				} finally {
 					patchState(store, { loading: false });

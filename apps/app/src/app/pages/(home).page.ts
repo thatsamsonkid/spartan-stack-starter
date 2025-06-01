@@ -33,7 +33,11 @@ import { TodoListComponent } from '../features/todo/todo-list.component';
 			<div class="mb-6 flex items-center justify-between">
 				<h1 class="text-2xl font-bold">My Todos</h1>
 				<button hlmBtn [routerLink]="['/todos/new']">
-					New Todo
+					New Todo Form Action
+					<ng-icon hlm name="lucidePlus" class="ml-2" />
+				</button>
+				<button hlmBtn [routerLink]="['/todos/new-todo-trpc']">
+					New Todo Trpc
 					<ng-icon hlm name="lucidePlus" class="ml-2" />
 				</button>
 			</div>

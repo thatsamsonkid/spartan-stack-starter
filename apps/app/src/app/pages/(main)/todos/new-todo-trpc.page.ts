@@ -1,4 +1,4 @@
-import { FormAction } from '@analogjs/router';
+import { RouteMeta } from '@analogjs/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -16,6 +16,7 @@ import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { HlmSelectImports } from '@spartan-ng/ui-select-helm';
+import { anonAuthGuard } from '../../../core/guards/anon-auth.guard';
 import { TodoPriority, TodoStatus } from '../../../core/types/todo.types';
 import { TodoStore } from '../../../store/todo.store';
 
@@ -24,6 +25,11 @@ type FormErrors =
 			email?: string;
 	  }
 	| undefined;
+
+export const routeMeta: RouteMeta = {
+	title: 'New Todo',
+	canActivate: [anonAuthGuard],
+};
 
 @Component({
 	selector: 'app-new-todo-page',
@@ -42,7 +48,6 @@ type FormErrors =
 		BrnSelectImports,
 		HlmSelectImports,
 		NgIcon,
-		FormAction,
 	],
 	providers: [provideIcons({ lucideArrowLeft })],
 	template: `
@@ -70,14 +75,7 @@ type FormErrors =
 				</div>
 			}
 
-			<form
-				[formGroup]="todoForm"
-				method="post"
-				(onSuccess)="onSuccess()"
-				(onError)="onError($any($event))"
-				(onStateChange)="errors.set(undefined)"
-				class="space-y-4"
-			>
+			<form [formGroup]="todoForm" class="space-y-4" (ngSubmit)="onSubmit()">
 				<hlm-form-field>
 					<label hlmLabel>Title</label>
 					<input hlmInput class="w-full" formControlName="title" placeholder="Enter todo title" required name="title" />
@@ -168,31 +166,6 @@ type FormErrors =
 					<!-- </hlm-form-field> -->
 				</div>
 
-				<!-- <hlm-form-field> -->
-				<!-- <label hlmLabel>Tags</label>
-				<div class="flex flex-wrap gap-2">
-					@for (tag of selectedTags; track tag.id) {
-						<span hlmBadge [style.background-color]="tag.color + '20'" [style.color]="tag.color">
-							{{ tag.name }}
-							<button hlmBtn variant="ghost" size="icon" (click)="removeTag(tag)">
-								<ng-icon hlm name="x" class="h-3 w-3" />
-							</button>
-						</span>
-					}
-				</div> -->
-				<!-- </hlm-form-field> -->
-				<!-- <div hlmCommand>
-						<input hlmInput placeholder="Add tags..." hlm-command-search-input />
-						<div hlmCommandList>
-							@for (tag of filteredTags; track tag.id) {
-								<button hlmCommandItem (click)="selectedTag(tag)">
-									<span class="mr-2 inline-block h-3 w-3 rounded-full" [style.background-color]="tag.color"></span>
-									{{ tag.name }}
-								</button>
-							}
-						</div>
-					</div> -->
-
 				<div class="flex justify-end gap-4">
 					<button hlmBtn variant="outline" type="button" (click)="router.navigate(['/todos'])">Cancel</button>
 					<button hlmBtn variant="default" type="submit" [disabled]="todoForm.invalid || todoStore.loading()">
@@ -201,7 +174,6 @@ type FormErrors =
 				</div>
 			</form>
 		</div>
-		<!-- <app-todo-form /> -->
 	`,
 })
 export default class NewTodoPageComponent {
@@ -283,7 +255,7 @@ export default class NewTodoPageComponent {
 				const todoId = this._route.snapshot.paramMap.get('id');
 				// this.todoStore.updateTodo({ id: todoId!, ...todoData });
 			} else {
-				// this.todoStore.createTodo(todoData);
+				this.todoStore.createTodo(todoData as any);
 			}
 		}
 	}

@@ -1,18 +1,19 @@
-import { fail, json, redirect, type PageServerAction } from '@analogjs/router/server/actions';
+import { fail, json, type PageServerAction } from '@analogjs/router/server/actions';
 import { readFormData } from 'h3';
 
 export async function action({ event }: PageServerAction) {
 	const body = await readFormData(event);
-	console.log(body);
-	const email = body.get('email') as string;
+	const title = body.get('title') as string;
+	// const description = body.get('description') as string;
+	// const status = body.get('status') as string;
 
-	if (!email) {
-		return fail(422, { email: 'Email is required' });
+	if (!title) {
+		return fail(422, { title: 'Title is required' });
 	}
 
-	if (email.length < 10) {
-		return redirect('/');
-	}
+	// if (email.length < 10) {
+	// 	return redirect('/');
+	// }
 
 	return json({ type: 'success' });
 }
