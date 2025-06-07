@@ -63,13 +63,14 @@ export const TodoStore = signalStore(
 			async loadTodos() {
 				patchState(store, { loading: true });
 				try {
-					const { data, error } = await supabase.client
-						.from('todos')
-						.select('*, category:categories(*), tags:todo_tags(tag:tags(*))')
-						.order('created_at', { ascending: false });
-
+					//  const { data, error } = await supabase.client
+					// 		.from('todos')
+					// 		.select('*, category:categories(*), tags:todo_tags(tag:tags(*))')
+					// 		.order('created_at', { ascending: false });
+					const { data, error } = await firstValueFrom(trpc.todo.list.query());
+					console.log('data', data);
 					if (error) throw error;
-					patchState(store, { todos: data as Todo[] });
+					patchState(store, { todos: data as unknown as Todo[] });
 				} catch (error) {
 					patchState(store, { error: error instanceof Error ? error.message : 'Failed to load todos' });
 				} finally {
@@ -81,25 +82,14 @@ export const TodoStore = signalStore(
 				patchState(store, { loading: true });
 				try {
 					const { data, error } = await firstValueFrom(trpc.todo.create.mutate(input));
-					// const { data: todo, error } = await supabase.client.from('todos').insert(input).select().single();
 
 					if (error) throw error;
-
-					// if (input.tag_ids?.length) {
-					// 	const tagInserts = input.tag_ids.map((tag_id) => ({
-					// 		todo_id: todo.id,
-					// 		tag_id,
-					// 	}));
-
-					// 	const { error: tagError } = await supabase.client.from('todo_tags').insert(tagInserts);
-
-					// 	if (tagError) throw tagError;
-					// }
-
 					await this.loadTodos();
+					return data;
 				} catch (error) {
 					console.log('error', error);
 					patchState(store, { error: error instanceof Error ? error.message : 'Failed to create todo' });
+					return null;
 				} finally {
 					patchState(store, { loading: false });
 				}

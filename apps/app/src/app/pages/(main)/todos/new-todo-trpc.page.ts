@@ -4,7 +4,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideArrowLeft } from '@ng-icons/lucide';
+import { lucideArrowLeft, lucideCheck } from '@ng-icons/lucide';
 import { BrnCommandImports } from '@spartan-ng/brain/command';
 import { BrnSelectImports } from '@spartan-ng/brain/select';
 import { HlmBadgeDirective } from '@spartan-ng/ui-badge-helm';
@@ -16,6 +16,8 @@ import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { HlmSelectImports } from '@spartan-ng/ui-select-helm';
+import { HlmToasterComponent } from '@spartan-ng/ui-sonner-helm';
+import { toast } from 'ngx-sonner';
 import { anonAuthGuard } from '../../../core/guards/anon-auth.guard';
 import { TodoPriority, TodoStatus } from '../../../core/types/todo.types';
 import { TodoStore } from '../../../store/todo.store';
@@ -48,8 +50,9 @@ export const routeMeta: RouteMeta = {
 		BrnSelectImports,
 		HlmSelectImports,
 		NgIcon,
+		HlmToasterComponent,
 	],
-	providers: [provideIcons({ lucideArrowLeft })],
+	providers: [provideIcons({ lucideArrowLeft, lucideCheck })],
 	template: `
 		<!-- <brn-dialog [state]="'open'" (stateChanged)="stateChanged($event)">
 			<brn-dialog-overlay hlm /> -->
@@ -174,6 +177,7 @@ export const routeMeta: RouteMeta = {
 				</div>
 			</form>
 		</div>
+		<hlm-toaster />
 	`,
 })
 export default class NewTodoPageComponent {
@@ -203,6 +207,8 @@ export default class NewTodoPageComponent {
 
 	protected readonly errors = signal<FormErrors>(undefined);
 	protected readonly success = signal(false);
+	protected showSuccess = false;
+	protected createdTodoId: string | null = null;
 
 	onSuccess() {
 		this.success.set(true);
@@ -243,7 +249,7 @@ export default class NewTodoPageComponent {
 		this.router.navigate(['/todos/new']);
 	}
 
-	onSubmit() {
+	async onSubmit() {
 		if (this.todoForm.valid) {
 			const formValue = this.todoForm.value;
 			const todoData = {
@@ -252,11 +258,29 @@ export default class NewTodoPageComponent {
 			};
 
 			if (this.isEditMode) {
-				const todoId = this._route.snapshot.paramMap.get('id');
-				// this.todoStore.updateTodo({ id: todoId!, ...todoData });
+				const _todoId = this._route.snapshot.paramMap.get('id');
+				// this.todoStore.updateTodo({ id: _todoId!, ...todoData });
 			} else {
-				this.todoStore.createTodo(todoData as any);
+				const result = await this.todoStore.createTodo(todoData as any);
+				if (result) {
+					toast('Todo created successfully!', {
+						description: 'Your todo has been created',
+						action: {
+							label: 'View Todo',
+							onClick: () => this.router.navigate(['/todos', result.id]),
+						},
+					});
+					setTimeout(() => {
+						this.router.navigate(['/']);
+					}, 5000);
+				}
 			}
+		}
+	}
+
+	viewTodo() {
+		if (this.createdTodoId) {
+			this.router.navigate(['/todos', this.createdTodoId]);
 		}
 	}
 

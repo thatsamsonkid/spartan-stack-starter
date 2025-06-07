@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucidePlus } from '@ng-icons/lucide';
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm';
@@ -23,7 +23,6 @@ import { TodoListComponent } from '../features/todo/todo-list.component';
 		NgIcon,
 		HlmIconDirective,
 		TodoListComponent,
-		RouterOutlet,
 	],
 	providers: [provideIcons({ lucidePlus })],
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,12 +31,9 @@ import { TodoListComponent } from '../features/todo/todo-list.component';
 		<main class="container mx-auto max-w-screen-xl p-4">
 			<div class="mb-6 flex items-center justify-between">
 				<h1 class="text-2xl font-bold">My Todos</h1>
-				<button hlmBtn [routerLink]="['/todos/new']">
-					New Todo Form Action
-					<ng-icon hlm name="lucidePlus" class="ml-2" />
-				</button>
+				<!-- Trpc New Todo -->
 				<button hlmBtn [routerLink]="['/todos/new-todo-trpc']">
-					New Todo Trpc
+					New Todo
 					<ng-icon hlm name="lucidePlus" class="ml-2" />
 				</button>
 			</div>

@@ -43,60 +43,61 @@ import { TodoStore } from '../../store/todo.store';
 			} @else if (todoStore.todos().length > 0) {
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 					@for (todo of todoStore.todos(); track todo.id) {
-						<div hlmCard>
-							<div class="p-4">
-								<div class="mb-2">
-									<h3 class="text-lg font-semibold">{{ todo.title }}</h3>
-									@if (todo.category) {
-										<span
-											hlmBadge
-											[style.background-color]="todo.category.color + '20'"
-											[style.color]="todo.category.color"
-										>
-											{{ todo.category.name }}
-										</span>
-									}
-								</div>
-
-								@if (todo.description) {
-									<p class="mt-2 text-gray-600">{{ todo.description }}</p>
-								}
-
-								@if (todo.tags?.length) {
-									<div class="mt-4 flex flex-wrap gap-2">
-										@for (tag of todo.tags; track tag.id) {
-											<span hlmBadge [style.background-color]="tag.color + '20'" [style.color]="tag.color">
-												{{ tag.name }}
+						<a [routerLink]="['/todos', todo.id]">
+							<div hlmCard>
+								<div class="p-4">
+									<div class="mb-2">
+										<h3 class="text-lg font-semibold">{{ todo.title }}</h3>
+										@if (todo.category) {
+											<span
+												hlmBadge
+												[style.background-color]="todo.category.color + '20'"
+												[style.color]="todo.category.color"
+											>
+												{{ todo.category.name }}
 											</span>
 										}
 									</div>
-								}
 
-								<div class="mt-4 flex items-center gap-4">
-									<span
-										hlmBadge
-										[ngClass]="{
-											'bg-yellow-100 text-yellow-800': todo.status === 'pending',
-											'bg-blue-100 text-blue-800': todo.status === 'in_progress',
-											'bg-green-100 text-green-800': todo.status === 'completed',
-										}"
-									>
-										{{ todo.status | titlecase }}
-									</span>
-									<span
-										hlmBadge
-										[ngClass]="{
-											'bg-gray-100 text-gray-800': todo.priority === 'low',
-											'bg-orange-100 text-orange-800': todo.priority === 'medium',
-											'bg-red-100 text-red-800': todo.priority === 'high',
-										}"
-									>
-										{{ todo.priority | titlecase }}
-									</span>
+									@if (todo.description) {
+										<p class="mt-2 text-gray-600">{{ todo.description }}</p>
+									}
+
+									@if (todo.tags?.length) {
+										<div class="mt-4 flex flex-wrap gap-2">
+											@for (tag of todo.tags; track tag.id) {
+												<span hlmBadge [style.background-color]="tag.color + '20'" [style.color]="tag.color">
+													{{ tag.name }}
+												</span>
+											}
+										</div>
+									}
+
+									<div class="mt-4 flex items-center gap-4">
+										<span
+											hlmBadge
+											[ngClass]="{
+												'bg-yellow-100 text-yellow-800': todo.status === 'pending',
+												'bg-blue-100 text-blue-800': todo.status === 'in_progress',
+												'bg-green-100 text-green-800': todo.status === 'completed',
+											}"
+										>
+											{{ todo.status | titlecase }}
+										</span>
+										<span
+											hlmBadge
+											[ngClass]="{
+												'bg-gray-100 text-gray-800': todo.priority === 'low',
+												'bg-orange-100 text-orange-800': todo.priority === 'medium',
+												'bg-red-100 text-red-800': todo.priority === 'high',
+											}"
+										>
+											{{ todo.priority | titlecase }}
+										</span>
+									</div>
 								</div>
-							</div>
 
-							<div class="flex justify-end gap-2 p-4 pt-0">
+								<!-- <div class="flex justify-end gap-2 p-4 pt-0">
 								<div hlmMenu>
 									<button hlmBtn variant="ghost" size="icon">
 										<ng-icon hlm name="more-vertical" />
@@ -117,8 +118,9 @@ import { TodoStore } from '../../store/todo.store';
 										</button>
 									</div>
 								</div>
+							</div> -->
 							</div>
-						</div>
+						</a>
 					}
 				</div>
 			} @else if (todoStore.error()) {

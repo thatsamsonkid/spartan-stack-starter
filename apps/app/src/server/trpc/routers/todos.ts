@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { getDbConnection } from '../../db/db';
-import { categories, sharedTodos, tags, todoTags, todos } from '../../db/schema';
+import { sharedTodos, todoTags, todos } from '../../db/schema';
 import { authProcedure, router } from '../trpc';
 
 type DbResult<T> = {
@@ -49,10 +49,10 @@ export const todoRouter = router({
 				getDbConnection()
 					.db.select()
 					.from(todos)
-					.where(eq(todos.user_id, ctx?.user?.id ?? ''))
-					.leftJoin(categories, eq(todos.category_id, categories.id))
-					.leftJoin(todoTags, eq(todos.id, todoTags.todo_id))
-					.leftJoin(tags, eq(todoTags.tag_id, tags.id)),
+					.where(eq(todos.user_id, ctx?.user?.id ?? '')),
+			// .leftJoin(categories, eq(todos.category_id, categories.id))
+			// .leftJoin(todoTags, eq(todos.id, todoTags.todo_id))
+			// .leftJoin(tags, eq(todoTags.tag_id, tags.id)),
 			'Failed to fetch todos',
 		);
 
@@ -70,10 +70,10 @@ export const todoRouter = router({
 				getDbConnection()
 					.db.select()
 					.from(todos)
-					.where(and(eq(todos.id, input.id), eq(todos.user_id, ctx?.user?.id ?? '')))
-					.leftJoin(categories, eq(todos.category_id, categories.id))
-					.leftJoin(todoTags, eq(todos.id, todoTags.todo_id))
-					.leftJoin(tags, eq(todoTags.tag_id, tags.id)),
+					.where(and(eq(todos.id, input.id), eq(todos.user_id, ctx?.user?.id ?? ''))),
+			// .leftJoin(categories, eq(todos.category_id, categories.id))
+			// .leftJoin(todoTags, eq(todos.id, todoTags.todo_id))
+			// .leftJoin(tags, eq(todoTags.tag_id, tags.id)),
 			'Failed to fetch todo',
 		);
 
