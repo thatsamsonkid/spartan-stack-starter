@@ -56,17 +56,11 @@ export const TodoStore = signalStore(
 		}),
 	})),
 	withMethods((store, trpc = inject(TrpcClient), supabase = inject(SupabaseClientService)) => {
-		// const supabase = inject(SupabaseClientService);
-
 		return {
 			// Todo methods
 			async loadTodos() {
 				patchState(store, { loading: true });
 				try {
-					//  const { data, error } = await supabase.client
-					// 		.from('todos')
-					// 		.select('*, category:categories(*), tags:todo_tags(tag:tags(*))')
-					// 		.order('created_at', { ascending: false });
 					const { data, error } = await firstValueFrom(trpc.todo.list.query());
 					console.log('data', data);
 					if (error) throw error;

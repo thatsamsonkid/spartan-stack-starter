@@ -96,29 +96,6 @@ import { TodoStore } from '../../store/todo.store';
 										</span>
 									</div>
 								</div>
-
-								<!-- <div class="flex justify-end gap-2 p-4 pt-0">
-								<div hlmMenu>
-									<button hlmBtn variant="ghost" size="icon">
-										<ng-icon hlm name="more-vertical" />
-									</button>
-									<div hlmMenuContent>
-										<button hlmMenuItem [routerLink]="['/todos', todo.id, 'edit']">
-											<ng-icon hlm name="edit" class="mr-2" />
-											<span>Edit</span>
-										</button>
-										<button hlmMenuItem (click)="onShare(todo)">
-											<ng-icon hlm name="share" class="mr-2" />
-											<span>Share</span>
-										</button>
-										<div hlmSeparator></div>
-										<button hlmMenuItem (click)="onDelete(todo)" class="text-red-500">
-											<ng-icon hlm name="trash" class="mr-2" />
-											<span>Delete</span>
-										</button>
-									</div>
-								</div>
-							</div> -->
 							</div>
 						</a>
 					}

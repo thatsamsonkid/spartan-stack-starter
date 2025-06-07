@@ -1,10 +1,10 @@
-import { FormAction } from '@analogjs/router';
+import { RouteMeta } from '@analogjs/router';
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideArrowLeft } from '@ng-icons/lucide';
+import { lucideArrowLeft, lucideCheck } from '@ng-icons/lucide';
 import { BrnCommandImports } from '@spartan-ng/brain/command';
 import { BrnSelectImports } from '@spartan-ng/brain/select';
 import { HlmBadgeDirective } from '@spartan-ng/ui-badge-helm';
@@ -16,14 +16,22 @@ import { HlmIconDirective } from '@spartan-ng/ui-icon-helm';
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm';
 import { HlmLabelDirective } from '@spartan-ng/ui-label-helm';
 import { HlmSelectImports } from '@spartan-ng/ui-select-helm';
-import { TodoPriority, TodoStatus } from '../../../core/types/todo.types';
+import { HlmToasterComponent } from '@spartan-ng/ui-sonner-helm';
+import { toast } from 'ngx-sonner';
+import { anonAuthGuard } from '../../../core/guards/anon-auth.guard';
 import { TodoStore } from '../../../store/todo.store';
+import { TodoPriority, TodoStatus } from '../../types/todo.types';
 
 type FormErrors =
 	| {
 			email?: string;
 	  }
 	| undefined;
+
+export const routeMeta: RouteMeta = {
+	title: 'New Todo',
+	canActivate: [anonAuthGuard],
+};
 
 @Component({
 	selector: 'app-new-todo-page',
@@ -42,9 +50,9 @@ type FormErrors =
 		BrnSelectImports,
 		HlmSelectImports,
 		NgIcon,
-		FormAction,
+		HlmToasterComponent,
 	],
-	providers: [provideIcons({ lucideArrowLeft })],
+	providers: [provideIcons({ lucideArrowLeft, lucideCheck })],
 	template: `
 		<!-- <brn-dialog [state]="'open'" (stateChanged)="stateChanged($event)">
 			<brn-dialog-overlay hlm /> -->
@@ -70,14 +78,7 @@ type FormErrors =
 				</div>
 			}
 
-			<form
-				[formGroup]="todoForm"
-				method="post"
-				(onSuccess)="onSuccess()"
-				(onError)="onError($any($event))"
-				(onStateChange)="errors.set(undefined)"
-				class="space-y-4"
-			>
+			<form [formGroup]="todoForm" class="space-y-4" (ngSubmit)="onSubmit()">
 				<hlm-form-field>
 					<label hlmLabel>Title</label>
 					<input hlmInput class="w-full" formControlName="title" placeholder="Enter todo title" required name="title" />
@@ -168,31 +169,6 @@ type FormErrors =
 					<!-- </hlm-form-field> -->
 				</div>
 
-				<!-- <hlm-form-field> -->
-				<!-- <label hlmLabel>Tags</label>
-				<div class="flex flex-wrap gap-2">
-					@for (tag of selectedTags; track tag.id) {
-						<span hlmBadge [style.background-color]="tag.color + '20'" [style.color]="tag.color">
-							{{ tag.name }}
-							<button hlmBtn variant="ghost" size="icon" (click)="removeTag(tag)">
-								<ng-icon hlm name="x" class="h-3 w-3" />
-							</button>
-						</span>
-					}
-				</div> -->
-				<!-- </hlm-form-field> -->
-				<!-- <div hlmCommand>
-						<input hlmInput placeholder="Add tags..." hlm-command-search-input />
-						<div hlmCommandList>
-							@for (tag of filteredTags; track tag.id) {
-								<button hlmCommandItem (click)="selectedTag(tag)">
-									<span class="mr-2 inline-block h-3 w-3 rounded-full" [style.background-color]="tag.color"></span>
-									{{ tag.name }}
-								</button>
-							}
-						</div>
-					</div> -->
-
 				<div class="flex justify-end gap-4">
 					<button hlmBtn variant="outline" type="button" (click)="router.navigate(['/todos'])">Cancel</button>
 					<button hlmBtn variant="default" type="submit" [disabled]="todoForm.invalid || todoStore.loading()">
@@ -201,7 +177,7 @@ type FormErrors =
 				</div>
 			</form>
 		</div>
-		<!-- <app-todo-form /> -->
+		<hlm-toaster />
 	`,
 })
 export default class NewTodoPageComponent {
@@ -231,6 +207,8 @@ export default class NewTodoPageComponent {
 
 	protected readonly errors = signal<FormErrors>(undefined);
 	protected readonly success = signal(false);
+	protected showSuccess = false;
+	protected createdTodoId: string | null = null;
 
 	onSuccess() {
 		this.success.set(true);
@@ -271,7 +249,7 @@ export default class NewTodoPageComponent {
 		this.router.navigate(['/todos/new']);
 	}
 
-	onSubmit() {
+	async onSubmit() {
 		if (this.todoForm.valid) {
 			const formValue = this.todoForm.value;
 			const todoData = {
@@ -280,11 +258,29 @@ export default class NewTodoPageComponent {
 			};
 
 			if (this.isEditMode) {
-				const todoId = this._route.snapshot.paramMap.get('id');
-				// this.todoStore.updateTodo({ id: todoId!, ...todoData });
+				const _todoId = this._route.snapshot.paramMap.get('id');
+				// this.todoStore.updateTodo({ id: _todoId!, ...todoData });
 			} else {
-				// this.todoStore.createTodo(todoData);
+				const result = await this.todoStore.createTodo(todoData as any);
+				if (result) {
+					toast('Todo created successfully!', {
+						description: 'Your todo has been created',
+						action: {
+							label: 'View Todo',
+							onClick: () => this.router.navigate(['/todos', result.id]),
+						},
+					});
+					setTimeout(() => {
+						this.router.navigate(['/']);
+					}, 5000);
+				}
 			}
+		}
+	}
+
+	viewTodo() {
+		if (this.createdTodoId) {
+			this.router.navigate(['/todos', this.createdTodoId]);
 		}
 	}
 
